@@ -5,7 +5,6 @@
 //  Created by Mateusz Krówczyński on 15/11/2024.
 //
 
-import SwiftData
 import SwiftUI
 
 struct UserRatingCell: View {
@@ -30,14 +29,7 @@ struct UserRatingCell: View {
     }
 }
 
-#Preview(traits: .sizeThatFitsLayout) {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: UserRatingModel.self, configurations: config)
-        let exampleRating = UserRatingModel(title: "Test Title", imageName: "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg", rating: 8)
-        
-        return UserRatingCell(userRating: exampleRating, imageName: exampleRating.imageName)
-    } catch {
-        return Text("Failed to create preivew: \(error.localizedDescription).")
-    }
+#Preview {
+    let exampleRating = UserRatingModel(title: "Test Title", imageName: "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg", rating: 8)
+    UserRatingCell(userRating: exampleRating, imageName: exampleRating.imageName)
 }

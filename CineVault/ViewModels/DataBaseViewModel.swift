@@ -2,20 +2,27 @@ import Foundation
 
 @MainActor
 final class DataBaseViewModel: ObservableObject {
-    private let favoritesManager = FavoritesService()
-    private let webService = WebService()
-    
+    // Movies
     @Published private(set) var trendings: [MovieModel] = []
     @Published private(set) var popular: [MovieModel] = []
-    @Published private(set) var popularActor: [ActorModel] = []
-    @Published private(set) var airingToday: [SeriesModel] = []
-    @Published private(set) var popularSeries: [SeriesModel] = []
-    @Published private(set) var onTheAirSeries: [SeriesModel] = []
-    @Published var searchDB: [SearchDBModel] = []
-    @Published private(set) var topRatedSeries: [SeriesModel] = []
     @Published private(set) var upcoming: [MovieModel] = []
     @Published private(set) var topRated: [MovieModel] = []
     
+    // Series
+    @Published private(set) var airingToday: [SeriesModel] = []
+    @Published private(set) var popularSeries: [SeriesModel] = []
+    @Published private(set) var onTheAirSeries: [SeriesModel] = []
+    @Published private(set) var topRatedSeries: [SeriesModel] = []
+    // Actors
+    @Published private(set) var popularActor: [ActorModel] = []
+    
+    // Search
+    @Published var searchDB: [SearchDBModel] = []
+    
+    private let favoritesManager = FavoritesService()
+    private let webService = WebService()
+    
+    // Favorites
     @Published var favoriteMoviesAndSeries: Set<String> {
         didSet {
             favoritesManager.favoriteMoviesAndSeries = favoriteMoviesAndSeries

@@ -13,7 +13,7 @@ final class WebService {
     private func fetch<T: Decodable>(url: URL) async throws -> T {
         let (data, response) = try await URLSession.shared.data(from: url)
         
-        guard let httpResponse = response as? HTTPURLResponse, 200...299 ~= httpResponse.statusCode else {
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw ErrorCases.requestFailed
         }
         
