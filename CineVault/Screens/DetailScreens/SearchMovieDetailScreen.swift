@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchMovieDetailScreen: View {
     
-    @EnvironmentObject var viewModel: MovieDBViewModel
+    @EnvironmentObject var viewModel: DataBaseViewModel
     var imageName: String = Constants.mockImage
     var movie: SearchDBModel = .mock
     @State private var onClick: Bool = false
@@ -123,5 +123,5 @@ struct SearchMovieDetailScreen: View {
 
 #Preview {
     SearchMovieDetailScreen()
-        .environmentObject(MovieDBViewModel())
+        .environmentObject(DataBaseViewModel())
 }

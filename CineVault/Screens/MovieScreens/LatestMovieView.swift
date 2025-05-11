@@ -12,7 +12,7 @@ struct LatestMovieView: View {
     var movie: MovieModel = .mock
     var imageURL: String = Constants.mockImage
     
-    @EnvironmentObject var viewModel: MovieDBViewModel
+    @EnvironmentObject var viewModel: DataBaseViewModel
     
     var body: some View {
         ZStack {
@@ -56,5 +56,5 @@ struct LatestMovieView: View {
 
 #Preview {
     LatestMovieView()
-        .environmentObject(MovieDBViewModel())
+        .environmentObject(DataBaseViewModel())
 }

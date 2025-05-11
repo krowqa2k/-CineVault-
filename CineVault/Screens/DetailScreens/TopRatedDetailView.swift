@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TopRatedDetailView: View {
     
-    @EnvironmentObject var viewModel: MovieDBViewModel
+    @EnvironmentObject var viewModel: DataBaseViewModel
     var imageName: String = Constants.mockImage
     var movie: MovieModel = .mock
     @State private var onClick: Bool = false
@@ -123,5 +123,5 @@ struct TopRatedDetailView: View {
 
 #Preview {
     TopRatedDetailView()
-        .environmentObject(MovieDBViewModel())
+        .environmentObject(DataBaseViewModel())
 }

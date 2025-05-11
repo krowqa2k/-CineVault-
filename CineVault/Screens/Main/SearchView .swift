@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchView_: View {
-    @EnvironmentObject var viewModel: MovieDBViewModel
+    @EnvironmentObject var viewModel: DataBaseViewModel
     @State private var query: String = ""
         
     var body: some View {
@@ -121,6 +121,6 @@ struct SearchView_: View {
     ZStack {
         Color.blackDB.ignoresSafeArea()
         SearchView_()
-            .environmentObject(MovieDBViewModel())
+            .environmentObject(DataBaseViewModel())
     }
 }

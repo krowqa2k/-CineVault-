@@ -1,8 +1,8 @@
 import Foundation
 
 @MainActor
-final class MovieDBViewModel: ObservableObject {
-    private let favoritesManager = FavoritesManager()
+final class DataBaseViewModel: ObservableObject {
+    private let favoritesManager = FavoritesService()
     private let webService = WebService()
     
     @Published private(set) var trendings: [MovieModel] = []

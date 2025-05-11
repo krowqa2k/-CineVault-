@@ -11,7 +11,7 @@ import SwiftData
 struct MovieDetailView: View {
     
     @Environment(\.modelContext) var modelContext
-    @EnvironmentObject var viewModel: MovieDBViewModel
+    @EnvironmentObject var viewModel: DataBaseViewModel
     var imageName: String = Constants.mockImage
     var movie: MovieModel = .mock
     @State private var onClick: Bool = false
@@ -224,6 +224,6 @@ struct MovieDetailView: View {
     ZStack {
         Color.blackDB
         MovieDetailView()
-            .environmentObject(MovieDBViewModel())
+            .environmentObject(DataBaseViewModel())
     }
 }

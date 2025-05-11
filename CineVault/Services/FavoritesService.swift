@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FavoritesManager {
+class FavoritesService {
     
     private let favoritesKey = "favoritesKey"
     

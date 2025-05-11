@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UpcomingMovieListView: View {
     
-    @EnvironmentObject var viewModel: MovieDBViewModel
+    @EnvironmentObject var viewModel: DataBaseViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -71,5 +71,5 @@ struct UpcomingMovieListView: View {
 
 #Preview {
     UpcomingMovieListView()
-        .environmentObject(MovieDBViewModel())
+        .environmentObject(DataBaseViewModel())
 }

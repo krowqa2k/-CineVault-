@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @State var index: Int
-    @EnvironmentObject var viewModel: MovieDBViewModel
+    @EnvironmentObject var viewModel: DataBaseViewModel
     @State private var options: [String] = ["Movies", "Series"]
     @State private var isShowingSplash = true
     @AppStorage("db_home_filter") private var selection: String = "Movies"
@@ -99,5 +99,5 @@ struct MainView: View {
 
 #Preview {
     MainView(index: 0)
-        .environmentObject(MovieDBViewModel())
+        .environmentObject(DataBaseViewModel())
 }

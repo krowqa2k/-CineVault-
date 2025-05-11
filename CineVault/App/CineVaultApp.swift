@@ -11,7 +11,7 @@ import SwiftUI
 @main
 struct CineVault: App {
     
-    @StateObject private var viewModel = MovieDBViewModel()
+    @StateObject private var viewModel = DataBaseViewModel()
     
     var body: some Scene {
         WindowGroup {

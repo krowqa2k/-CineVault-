@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PopularActorView: View {
     
-    @EnvironmentObject var viewModel: MovieDBViewModel
+    @EnvironmentObject var viewModel: DataBaseViewModel
     
     var body: some View {
         ZStack {
@@ -50,5 +50,5 @@ struct PopularActorView: View {
 
 #Preview {
     PopularActorView()
-        .environmentObject(MovieDBViewModel())
+        .environmentObject(DataBaseViewModel())
 }

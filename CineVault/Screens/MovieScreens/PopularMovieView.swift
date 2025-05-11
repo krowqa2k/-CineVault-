@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PopularMovieView: View {
-    @EnvironmentObject var viewModel: MovieDBViewModel
+    @EnvironmentObject var viewModel: DataBaseViewModel
     let screenWidth = UIScreen.main.bounds.width
     @State private var currentIndex = 0
     @State private var timer: Timer?
@@ -60,7 +60,7 @@ struct PopularMovieView: View {
 
 #Preview {
     PopularMovieView()
-        .environmentObject(MovieDBViewModel())
+        .environmentObject(DataBaseViewModel())
 }
 
 

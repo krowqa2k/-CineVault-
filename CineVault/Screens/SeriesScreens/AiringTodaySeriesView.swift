@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AiringTodaySeriesView: View {
-    @EnvironmentObject var viewModel: MovieDBViewModel
+    @EnvironmentObject var viewModel: DataBaseViewModel
     
     var body: some View {
         ZStack {
@@ -53,5 +53,5 @@ struct AiringTodaySeriesView: View {
 
 #Preview {
     AiringTodaySeriesView()
-        .environmentObject(MovieDBViewModel())
+        .environmentObject(DataBaseViewModel())
 }
