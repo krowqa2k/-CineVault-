@@ -22,20 +22,6 @@ struct MovieModel: Codable, Identifiable {
     let voteAverage: Double
     let voteCount: Double
 
-    enum CodingKeys: String, CodingKey {
-        case adult
-        case id
-        case genreIDS = "genre_ids"
-        case originalLanguage = "original_language"
-        case originalTitle = "original_title"
-        case overview
-        case posterPath = "poster_path"
-        case releaseDate = "release_date"
-        case title
-        case voteAverage = "vote_average"
-        case voteCount = "vote_count"
-    }
-    
     var fullPosterPath: String {
         guard let posterPath = posterPath else { return Constants.noImage }
         return Constants.imageGet + posterPath
@@ -63,5 +49,21 @@ struct MovieModel: Codable, Identifiable {
             voteAverage: 8.706,
             voteCount: 26526
         )
+    }
+}
+
+private extension MovieModel {
+    enum CodingKeys: String, CodingKey {
+        case adult
+        case id
+        case genreIDS = "genre_ids"
+        case originalLanguage = "original_language"
+        case originalTitle = "original_title"
+        case overview
+        case posterPath = "poster_path"
+        case releaseDate = "release_date"
+        case title
+        case voteAverage = "vote_average"
+        case voteCount = "vote_count"
     }
 }

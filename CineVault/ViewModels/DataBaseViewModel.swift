@@ -13,8 +13,6 @@ final class DataBaseViewModel: ObservableObject {
     @Published private(set) var popularSeries: [SeriesModel] = []
     @Published private(set) var onTheAirSeries: [SeriesModel] = []
     @Published private(set) var topRatedSeries: [SeriesModel] = []
-    // Actors
-    @Published private(set) var popularActor: [ActorModel] = []
     
     // Search
     @Published var searchDB: [SearchDBModel] = []
@@ -42,7 +40,6 @@ final class DataBaseViewModel: ObservableObject {
         await getPopularData()
         await getUpcomingData()
         await getTopRatedData()
-        await getPopularActorData()
         await getAiringTodayData()
         await getPopularSeriesData()
         await getTopRatedSeriesData()
@@ -117,15 +114,6 @@ final class DataBaseViewModel: ObservableObject {
             sortTopRatedMoviesByRating()
         } catch {
             print("Error fetching top-rated movies: \(error)")
-        }
-    }
-    
-    private func getPopularActorData() async {
-        do {
-            let result: ActorResults = try await webService.getPopularActorData()
-            self.popularActor = result.results
-        } catch {
-            print("Error fetching popular actors: \(error)")
         }
     }
     

@@ -26,21 +26,6 @@ struct SearchDBModel: Codable, Identifiable {
     let firstAirDate: String?
     let profilePath: String?
     let name: String?
-
-    enum CodingKeys: String, CodingKey {
-        case adult
-        case id, title
-        case genreIDS = "genre_ids"
-        case overview
-        case posterPath = "poster_path"
-        case popularity
-        case releaseDate = "release_date"
-        case voteAverage = "vote_average"
-        case voteCount = "vote_count"
-        case firstAirDate = "first_air_date"
-        case profilePath = "profile_path"
-        case name
-    }
     
     var fullPosterPath: String {
         if let posterPath = posterPath {
@@ -87,6 +72,23 @@ struct SearchDBModel: Codable, Identifiable {
             profilePath: Constants.mockImage,
             name: "The Dark Knight"
         )
+    }
+}
+
+private extension SearchDBModel {
+    enum CodingKeys: String, CodingKey {
+        case adult
+        case id, title
+        case genreIDS = "genre_ids"
+        case overview
+        case posterPath = "poster_path"
+        case popularity
+        case releaseDate = "release_date"
+        case voteAverage = "vote_average"
+        case voteCount = "vote_count"
+        case firstAirDate = "first_air_date"
+        case profilePath = "profile_path"
+        case name
     }
 }
 

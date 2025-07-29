@@ -8,7 +8,7 @@
 import Foundation
 
 final class WebService {
-    let apiKey: String = "5c7cea308def9c5b381b8e963b9df62a"
+    private let apiKey: String = "5c7cea308def9c5b381b8e963b9df62a"
     
     private func fetch<T: Decodable>(url: URL) async throws -> T {
         let (data, response) = try await URLSession.shared.data(from: url)
@@ -18,7 +18,9 @@ final class WebService {
         }
         
         do {
-            let decodedData = try JSONDecoder().decode(T.self, from: data)
+            let decoder = JSONDecoder()
+            
+            let decodedData = try decoder.decode(T.self, from: data)
             return decodedData
         } catch {
             throw ErrorCases.decodingError
@@ -48,13 +50,6 @@ final class WebService {
     
     func getTopRatedData() async throws -> MovieResults {
         guard let url = URL(string: "https://api.themoviedb.org/3/movie/top_rated?api_key=\(apiKey)") else {
-            throw ErrorCases.invalidURL
-        }
-        return try await fetch(url: url)
-    }
-    
-    func getPopularActorData() async throws -> ActorResults {
-        guard let url = URL(string: "https://api.themoviedb.org/3/person/popular?api_key=\(apiKey)") else {
             throw ErrorCases.invalidURL
         }
         return try await fetch(url: url)

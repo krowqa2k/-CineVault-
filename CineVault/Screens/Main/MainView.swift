@@ -76,7 +76,6 @@ struct MainView: View {
                             LatestMovieView()
                             UpcomingMovieView()
                             TopRatedMovieView()
-                            PopularActorView()
                         }
                         .padding(.bottom, 20)
                         .transition(.move(edge: .leading))
