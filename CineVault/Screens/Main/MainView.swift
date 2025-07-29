@@ -9,27 +9,28 @@ import SwiftUI
 
 struct MainView: View {
     @State var index: Int
-    @EnvironmentObject var viewModel: DataBaseViewModel
+    @EnvironmentObject private var viewModel: DataBaseViewModel
     @State private var options: [String] = ["Movies", "Series"]
-    @State private var isShowingSplash = true
-    @AppStorage("db_home_filter") private var selection: String = "Movies"
+    @State private var loadingState: LoadingState = .loading
+    @AppStorage("homeFilter") private var selection: String = "Movies"
     
     var body: some View {
         ZStack {
-            if isShowingSplash {
+            switch loadingState {
+            case .loading:
                 SplashLaunchScreen()
                     .transition(.opacity)
                     .zIndex(1)
-            } else {
+            case .loaded:
                 mainContent
-                    .opacity(isShowingSplash ? 0 : 1)
-                    .animation(.easeIn(duration: 0.2), value: isShowingSplash)
+                    .opacity(loadingState == .loading ? 0 : 1)
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { 
-                withAnimation {
-                    isShowingSplash = false
+            Task { @MainActor in
+                try? await Task.sleep(for: .seconds(4.6))
+                withAnimation(.easeInOut) {
+                    loadingState = .loaded
                 }
             }
         }
@@ -43,9 +44,9 @@ struct MainView: View {
                     .scrollIndicators(.hidden)
             case 1:
                 SearchView_()
-            case 2:
-                UserRatingsView()
             case 3:
+                UserRatingsView()
+            case 4:
                 AppInfoView()
             default:
                 defaultView
@@ -99,4 +100,11 @@ struct MainView: View {
 #Preview {
     MainView(index: 0)
         .environmentObject(DataBaseViewModel())
+}
+
+private extension MainView {
+    enum LoadingState {
+        case loading
+        case loaded
+    }
 }

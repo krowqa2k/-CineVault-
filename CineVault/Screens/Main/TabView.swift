@@ -8,58 +8,33 @@
 import SwiftUI
 
 struct TabView: View {
-    
     @Binding var index: Int
+    private let tabImages: [String] = ["movieclapper", "magnifyingglass", "popcorn.fill", "star.fill", "info.circle"]
     
     var body: some View {
         HStack {
-            Button {
-                self.index = 0
-            } label: {
-                Image(systemName: "movieclapper")
-                    .font(.title2)
+            ForEach(0..<tabImages.count, id: \.self) { i in
+                Button {
+                    self.index = i
+                } label: {
+                    if i != 2 {
+                        Image(systemName: tabImages[i])
+                            .font(.title2)
+                            .foregroundStyle(self.index == i ? .purpleDB : .white)
+                    }
+                }
+                .frame(maxWidth: .infinity)
             }
-            .foregroundStyle(self.index == 0 ? .purpleDB : .white)
-            
-            Spacer(minLength: 0)
-            
-            Button {
-                self.index = 1
-            } label: {
-                Image(systemName: "magnifyingglass")
-                    .font(.title2)
-            }
-            .foregroundStyle(self.index == 1 ? .purpleDB : .white)
-            
-            Spacer(minLength: 0)
-            
-            Image(systemName: "popcorn.fill")
-                .foregroundStyle(.purpleDB)
-                .font(.system(size: 40))
-                .offset(y: -20)
-            
-            Spacer(minLength: 0)
-            
-            Button {
-                self.index = 2
-            } label: {
-                Image(systemName: "star.fill")
-                    .font(.title2)
-            }
-            .foregroundStyle(self.index == 2 ? .purpleDB : .white)
-            
-            Spacer(minLength: 0)
-            
-            Button {
-                self.index = 3
-            } label: {
-                Image(systemName: "info.circle")
-                    .font(.title2)
-            }
-            .foregroundStyle(self.index == 3 ? .purpleDB : .white)
         }
-        .padding(.horizontal, 35)
-        .background(Color.blackDB)
+        .padding(.horizontal)
+        .background(.blackDB)
+        .overlay {
+            Image(systemName: tabImages[2])
+                .foregroundStyle(.purpleDB)
+                .font(.largeTitle)
+                .bold()
+                .offset(y: -20)
+        }
     }
 }
 
