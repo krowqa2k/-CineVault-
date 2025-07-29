@@ -36,16 +36,41 @@ final class DataBaseViewModel: ObservableObject {
     }
     
     private func fetchAllData() async {
-        await getTrendingsData()
-        await getPopularData()
-        await getUpcomingData()
-        await getTopRatedData()
-        await getAiringTodayData()
-        await getPopularSeriesData()
-        await getTopRatedSeriesData()
-        await getOnTheAirSeriesData()
+        await withTaskGroup { group in
+            group.addTask {
+                await self.getTrendingsData()
+            }
+            
+            group.addTask {
+                await self.getPopularData()
+            }
+            
+            group.addTask {
+                await self.getUpcomingData()
+            }
+            
+            group.addTask {
+                await self.getTopRatedData()
+            }
+            
+            group.addTask {
+                await self.getAiringTodayData()
+            }
+            
+            group.addTask {
+                await self.getPopularSeriesData()
+            }
+            
+            group.addTask {
+                await self.getTopRatedSeriesData()
+            }
+            
+            group.addTask {
+                await self.getOnTheAirSeriesData()
+            }
+        }
     }
-    
+
     func addFavorite(posterPath: String) {
         favoriteMoviesAndSeries.insert(posterPath)
     }
@@ -128,7 +153,7 @@ final class DataBaseViewModel: ObservableObject {
     
     private func getPopularSeriesData() async {
         do {
-            let result: SeriesResults = try await webService.getPopularSeriesData()
+            let result: SeriesResults = try await webService.getTrendingSeriesData()
             self.popularSeries = result.results
         } catch {
             print("Error fetching popular series: \(error)")
@@ -163,4 +188,3 @@ final class DataBaseViewModel: ObservableObject {
         }
     }
 }
-
