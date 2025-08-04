@@ -9,20 +9,19 @@ import SwiftUI
 
 struct FilterView: View {
     
-    var options: [String] = ["Movies", "Series"]
-    @Binding var selection: String
+    @ObservedObject var viewModel: MainViewViewModel
     @Namespace private var namespace
     
     var body: some View {
         HStack(alignment: .top, spacing: 32) {
-            ForEach(options, id: \.self) { option in
+            ForEach(ViewSelection.allCases, id: \.self) { option in
                 VStack(spacing: 6) {
-                    Text(option)
+                    Text(option.title)
                         .frame(maxWidth: .infinity)
                         .font(.subheadline)
                         .fontWeight(.medium)
                     
-                    if selection == option {
+                    if viewModel.viewOption == option {
                         RoundedRectangle(cornerRadius: 2)
                             .frame(height: 1.5)
                             .matchedGeometryEffect(id: "selection", in: namespace)
@@ -30,13 +29,13 @@ struct FilterView: View {
                     }
                 }
                 .background(Color.blackDB.opacity(0.001))
-                .foregroundStyle(selection == option ? .white : .gray)
+                .foregroundStyle(viewModel.viewOption == option ? .white : .gray)
                 .onTapGesture {
-                    selection = option
+                    viewModel.viewOption = option
                 }
             }
         }
-        .animation(.smooth, value: selection)
+        .animation(.smooth, value: viewModel.viewOption)
     }
 }
 
@@ -46,7 +45,7 @@ fileprivate struct FilterPreview: View {
     @State private var selection = "Movies"
     
     var body: some View {
-        FilterView(options: options, selection: $selection)
+        FilterView(viewModel: MainViewViewModel())
     }
 }
 

@@ -1,18 +1,16 @@
 //
-//  LatestMovieView.swift
-//  MovieDBApp
+//  MoviesSrollView.swift
+//  CineVault
 //
-//  Created by admin on 26/07/2024.
+//  Created by Mateusz Krówczyński on 04/08/2025.
 //
 
 import SwiftUI
 
-struct LatestMovieView: View {
-    
-    var movie: MovieModel = .mock
-    var imageURL: String = Constants.mockImage
-    
-    @EnvironmentObject var viewModel: DataBaseViewModel
+struct MoviesScrollView: View {
+    @EnvironmentObject private var viewModel: MoviesViewModel
+    let title: String
+    let movieArray: [MovieModel]
     
     var body: some View {
         ZStack {
@@ -21,14 +19,17 @@ struct LatestMovieView: View {
             VStack(spacing: 8) {
                 VStack(spacing: 8) {
                     HStack() {
-                        Text("Now Playing")
+                        Text(title)
                             .font(.title2)
                             .foregroundStyle(.white)
                             .fontWeight(.medium)
                         
                         Spacer()
                         
-                        NavigationLink(destination: TrendingMovieListView()) {
+                        NavigationLink(
+                            destination: MoviesListView(movieArray: movieArray)
+                                .environmentObject(viewModel)
+                        ) {
                             Text("View all")
                                 .font(.subheadline)
                                 .foregroundStyle(.purpleDB)
@@ -38,8 +39,11 @@ struct LatestMovieView: View {
                     
                     ScrollView(.horizontal){
                         LazyHStack {
-                            ForEach(viewModel.trendings.shuffled()){ latestMovie in
-                                NavigationLink(destination: MovieDetailView(imageName: latestMovie.fullPosterPath, movie: latestMovie)) {
+                            ForEach(movieArray){ latestMovie in
+                                NavigationLink(
+                                    destination: MovieDetailView(imageName: latestMovie.fullPosterPath, movie: latestMovie)
+                                        .environmentObject(viewModel)
+                                ) {
                                     MovieCell(movie: latestMovie, imageURL: latestMovie.fullPosterPath)
                                 }
                             }
@@ -55,6 +59,10 @@ struct LatestMovieView: View {
 }
 
 #Preview {
-    LatestMovieView()
-        .environmentObject(DataBaseViewModel())
+    let movieArray = [MovieModel.mock, MovieModel.mock, MovieModel.mock, MovieModel.mock, MovieModel.mock]
+    
+    NavigationStack {
+        MoviesScrollView(title: "Now Playing!", movieArray: movieArray)
+            .environmentObject(MoviesViewModel())
+    }
 }

@@ -9,28 +9,25 @@ import SwiftUI
 
 struct MainView: View {
     @State var index: Int
-    @EnvironmentObject private var viewModel: DataBaseViewModel
-    @State private var options: [String] = ["Movies", "Series"]
-    @State private var loadingState: LoadingState = .loading
-    @AppStorage("homeFilter") private var selection: String = "Movies"
+    @StateObject private var viewModel: MainViewViewModel = MainViewViewModel()
     
     var body: some View {
         ZStack {
-            switch loadingState {
+            switch viewModel.loadingState {
             case .loading:
                 SplashLaunchScreen()
                     .transition(.opacity)
                     .zIndex(1)
             case .loaded:
                 mainContent
-                    .opacity(loadingState == .loading ? 0 : 1)
+                    .opacity(viewModel.loadingState == .loading ? 0 : 1)
             }
         }
         .onAppear {
             Task { @MainActor in
                 try? await Task.sleep(for: .seconds(4.6))
                 withAnimation(.easeInOut) {
-                    loadingState = .loaded
+                    viewModel.loadingState = .loaded
                 }
             }
         }
@@ -38,7 +35,7 @@ struct MainView: View {
     
     private var mainContent: some View {
         VStack {
-            switch index {
+            switch viewModel.index {
             case 0:
                 defaultView
                     .scrollIndicators(.hidden)
@@ -55,7 +52,7 @@ struct MainView: View {
             
             Spacer()
             
-            TabView(index: self.$index)
+            TabView(index: $viewModel.index)
                 .frame(height: 35)
         }
         .background(Color.blackDB.ignoresSafeArea())
@@ -65,46 +62,38 @@ struct MainView: View {
         VStack(spacing: 4) {
             HeaderView()
             
-            FilterView(options: options, selection: $selection)
+            FilterView(viewModel: viewModel)
                 .padding(.bottom)
                 .padding(.horizontal)
             
             ScrollView(.vertical) {
                 ZStack {
-                    if selection == "Movies" {
+                    if viewModel.viewOption == .movies {
                         LazyVStack(spacing: 16) {
-                            PopularMovieView()
-                            LatestMovieView()
-                            UpcomingMovieView()
-                            TopRatedMovieView()
+                            MoviesMainView()
                         }
                         .padding(.bottom, 20)
                         .transition(.move(edge: .leading))
                     } else {
                         LazyVStack(spacing: 16) {
-                            PopularSeriesView()
-                            OnTheAirSeriesView()
-                            AiringTodaySeriesView()
-                            TopRatedSeriesView()
+                            
                         }
                         .padding(.bottom, 20)
                         .transition(.move(edge: .trailing))
                     }
                 }
-                .animation(.spring(), value: selection)
+                .animation(.spring(), value: viewModel.viewOption)
             }
         }
     }
 }
 
 #Preview {
-    MainView(index: 0)
-        .environmentObject(DataBaseViewModel())
-}
-
-private extension MainView {
-    enum LoadingState {
-        case loading
-        case loaded
+    NavigationStack {
+        MainView(index: 0)
     }
 }
+
+
+
+

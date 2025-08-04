@@ -1,16 +1,16 @@
 //
-//  TrendingMovieListView.swift
-//  MovieDBApp
+//  MoviesListView.swift
+//  CineVault
 //
-//  Created by Mateusz Krówczyński on 02/08/2024.
+//  Created by Mateusz Krówczyński on 04/08/2025.
 //
 
 import SwiftUI
 
-struct TrendingMovieListView: View {
-    
-    @EnvironmentObject var viewModel: DataBaseViewModel
+struct MoviesListView: View {
+    @EnvironmentObject var viewModel: MoviesViewModel
     @Environment(\.dismiss) var dismiss
+    let movieArray: [MovieModel]
     
     var body: some View {
         ZStack {
@@ -43,7 +43,7 @@ struct TrendingMovieListView: View {
             })
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 26)
-            Text("Now Playing")
+            Text("Popular Movies")
                 .foregroundStyle(.purpleDB)
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -57,9 +57,12 @@ struct TrendingMovieListView: View {
     
     private var moviesList: some View {
         ScrollView {
-            ForEach(viewModel.trendings){ latestMovie in
-                NavigationLink(destination: MovieDetailView(imageName: latestMovie.fullPosterPath, movie: latestMovie)) {
-                    MovieListCell(imageName: latestMovie.fullPosterPath, movie: latestMovie)
+            ForEach(movieArray){ popularMovie in
+                NavigationLink(
+                    destination: MovieDetailView(imageName: popularMovie.fullPosterPath, movie: popularMovie)
+                        .environmentObject(viewModel)
+                ) {
+                    MovieListCell(imageName: popularMovie.fullPosterPath, movie: popularMovie)
                         .padding(.top, 12)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading)
@@ -70,6 +73,10 @@ struct TrendingMovieListView: View {
 }
 
 #Preview {
-    TrendingMovieListView()
-        .environmentObject(DataBaseViewModel())
+    let movieArray: [MovieModel] = [MovieModel.mock, MovieModel.mock, MovieModel.mock]
+    
+    NavigationStack {
+        MoviesListView(movieArray: movieArray)
+            .environmentObject(MoviesViewModel())
+    }
 }
