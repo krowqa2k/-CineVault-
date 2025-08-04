@@ -9,15 +9,11 @@ import SwiftData
 import SwiftUI
 
 struct UserRatingsView: View {
-    
+    @StateObject private var viewModel: UserRatingsViewModel = UserRatingsViewModel()
     @Environment(\.modelContext) var modelContext
     @Query(sort: [SortDescriptor(\UserRatingModel.title)]) var userRatings: [UserRatingModel]
     @State private var sortOrder: [SortDescriptor<UserRatingModel>] = [SortDescriptor(\UserRatingModel.title)]
     private let columns = [GridItem(.adaptive(minimum: 110, maximum: 160))]
-    
-    private var sortedUserRatings: [UserRatingModel] {
-        userRatings.sorted(using: sortOrder)
-    }
     
     var body: some View {
         ZStack {
@@ -33,7 +29,7 @@ struct UserRatingsView: View {
                 }
                 Spacer()
             }
-            .animation(.smooth, value: sortedUserRatings)
+            .animation(.smooth, value: userRatings)
         }
     }
     
@@ -112,12 +108,12 @@ struct UserRatingsView: View {
             
             ScrollView {
                 LazyVGrid(columns: columns, alignment: .leading) {
-                    ForEach(sortedUserRatings) { movie in
+                    ForEach(viewModel.getSortedRatings(userRatings: userRatings, sortOrder: sortOrder)) { movie in
                         UserRatingCell(userRating: movie, imageName: movie.imageName)
                             .simultaneousGesture(
                                 LongPressGesture(minimumDuration: 0.5).onEnded { _ in
                                     withAnimation(.bouncy(duration: 0.5)) {
-                                        removeRating(model: movie)
+                                        viewModel.removeRating(model: movie, modelContext: modelContext)
                                     }
                                 }
                             )
@@ -127,8 +123,19 @@ struct UserRatingsView: View {
             }
         }
     }
+}
+
+#Preview {
+    UserRatingsView()
+}
+
+final class UserRatingsViewModel: ObservableObject {
     
-    private func removeRating(model: UserRatingModel) {
+    func getSortedRatings(userRatings: [UserRatingModel], sortOrder: [SortDescriptor<UserRatingModel>]) -> [UserRatingModel] {
+        return userRatings.sorted(using: sortOrder)
+    }
+    
+    func removeRating(model: UserRatingModel, modelContext: ModelContext) {
         do {
             modelContext.delete(model)
             try modelContext.save()
@@ -136,12 +143,4 @@ struct UserRatingsView: View {
             print("Error removing rating: \(error.localizedDescription)")
         }
     }
-}
-
-#Preview {
-    UserRatingsView()
-}
-
-#Preview {
-    UserRatingsView()
 }
