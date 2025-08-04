@@ -38,9 +38,10 @@ struct MoviesHighlightView: View {
 
 #Preview {
     let movieArray: [MovieModel] = [MovieModel.mock, MovieModel.mock, MovieModel.mock]
+    let webService = WebService()
     
     NavigationStack {
         MoviesHighlightView(movieArray: movieArray)
-            .environmentObject(MoviesViewModel())
+            .environmentObject(MoviesViewModel(webService: webService))
     }
 }

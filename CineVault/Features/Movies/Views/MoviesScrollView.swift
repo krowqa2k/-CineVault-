@@ -60,9 +60,10 @@ struct MoviesScrollView: View {
 
 #Preview {
     let movieArray = [MovieModel.mock, MovieModel.mock, MovieModel.mock, MovieModel.mock, MovieModel.mock]
+    let webService = WebService()
     
     NavigationStack {
         MoviesScrollView(title: "Now Playing!", movieArray: movieArray)
-            .environmentObject(MoviesViewModel())
+            .environmentObject(MoviesViewModel(webService: webService))
     }
 }

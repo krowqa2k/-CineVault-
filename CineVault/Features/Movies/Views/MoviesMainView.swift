@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct MoviesMainView: View {
-    @StateObject private var viewModel: MoviesViewModel = MoviesViewModel()
+    @StateObject private var viewModel: MoviesViewModel
+    
+    init(webService: WebServiceProtocol) {
+        _viewModel = StateObject(wrappedValue: MoviesViewModel(webService: webService))
+    }
     
     var body: some View {
         VStack(spacing: 24) {
@@ -21,10 +25,13 @@ struct MoviesMainView: View {
             
             MoviesScrollView(title: "Upcoming", movieArray: viewModel.upcoming)
         }
+        .background(Color.blackDB)
         .environmentObject(viewModel)
     }
 }
 
 #Preview {
-    MoviesMainView()
+    let webService = WebService()
+    
+    MoviesMainView(webService: webService)
 }

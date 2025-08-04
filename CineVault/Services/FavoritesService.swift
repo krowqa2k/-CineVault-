@@ -8,8 +8,9 @@
 import Foundation
 
 class FavoritesService {
-    
     private let favoritesKey = "favoritesKey"
+    static let shared = FavoritesService()
+    private init() { }
     
     var favoriteMoviesAndSeries: Set<String> {
         get {

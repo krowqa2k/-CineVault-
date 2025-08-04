@@ -221,9 +221,11 @@ struct MovieDetailView: View {
 }
 
 #Preview {
+    let webService = WebService()
+    
     ZStack {
         Color.blackDB
         MovieDetailView()
-            .environmentObject(MoviesViewModel())
+            .environmentObject(MoviesViewModel(webService: webService))
     }
 }

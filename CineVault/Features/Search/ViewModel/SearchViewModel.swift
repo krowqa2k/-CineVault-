@@ -11,8 +11,8 @@ import Foundation
 final class SearchViewModel: ObservableObject {
     @Published var searchDB: [SearchDBModel] = []
     
-    private let favoritesManager = FavoritesService()
-    private let webService = WebService()
+    private let favoritesManager = FavoritesService.shared
+    private let webService: WebServiceProtocol
     
     // Favorites
     @Published var favoriteMoviesAndSeries: Set<String> {
@@ -21,8 +21,9 @@ final class SearchViewModel: ObservableObject {
         }
     }
     
-    init() {
+    init(webService: WebServiceProtocol) {
         self.favoriteMoviesAndSeries = favoritesManager.favoriteMoviesAndSeries
+        self.webService = webService
     }
     
     func getSearchDBData(query: String) async {

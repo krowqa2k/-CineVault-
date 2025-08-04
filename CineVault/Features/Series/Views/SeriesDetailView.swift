@@ -220,6 +220,8 @@ struct SeriesDetailView: View {
 }
 
 #Preview {
+    let webService = WebService()
+    
     SeriesDetailView()
-        .environmentObject(SeriesViewModel())
+        .environmentObject(SeriesViewModel(webService: webService))
 }

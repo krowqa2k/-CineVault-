@@ -60,9 +60,10 @@ struct SeriesScrollView: View {
 
 #Preview {
     let seriesArray: [SeriesModel] = [.mock, .mock, .mock, .mock, .mock, .mock]
+    let webService = WebService()
     
     NavigationStack {
         SeriesScrollView(title: "Airing Today", seriesArray: seriesArray)
-            .environmentObject(SeriesViewModel())
+            .environmentObject(SeriesViewModel(webService: webService))
     }
 }

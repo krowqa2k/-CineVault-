@@ -14,8 +14,8 @@ final class SeriesViewModel: ObservableObject {
     @Published private(set) var onTheAirSeries: [SeriesModel] = []
     @Published private(set) var topRatedSeries: [SeriesModel] = []
     
-    private let favoritesManager = FavoritesService()
-    private let webService = WebService()
+    private let favoritesManager = FavoritesService.shared
+    private let webService: WebServiceProtocol
     
     // Favorites
     @Published var favoriteMoviesAndSeries: Set<String> {
@@ -24,8 +24,9 @@ final class SeriesViewModel: ObservableObject {
         }
     }
     
-    init() {
+    init(webService: WebServiceProtocol) {
         self.favoriteMoviesAndSeries = favoritesManager.favoriteMoviesAndSeries
+        self.webService = webService
         
         Task {
             await fetchAllData()

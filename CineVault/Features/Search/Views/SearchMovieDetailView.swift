@@ -185,8 +185,10 @@ struct SearchMovieDetailView: View {
 }
 
 #Preview {
+    let webService = WebService()
+    
     SearchMovieDetailView()
-        .environmentObject(SearchViewModel())
+        .environmentObject(SearchViewModel(webService: WebService()))
 }
 
 

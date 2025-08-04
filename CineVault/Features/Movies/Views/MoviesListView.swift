@@ -78,9 +78,10 @@ struct MoviesListView: View {
 
 #Preview {
     let movieArray: [MovieModel] = [MovieModel.mock, MovieModel.mock, MovieModel.mock]
+    let webService = WebService()
     
     NavigationStack {
         MoviesListView(title: "Popular Movies", movieArray: movieArray)
-            .environmentObject(MoviesViewModel())
+            .environmentObject(MoviesViewModel(webService: webService))
     }
 }

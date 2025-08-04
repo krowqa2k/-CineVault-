@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct SeriesMainView: View {
-    @StateObject private var viewModel: SeriesViewModel = SeriesViewModel()
+    @StateObject private var viewModel: SeriesViewModel
+    
+    init(webService: WebServiceProtocol) {
+        _viewModel = StateObject(wrappedValue: SeriesViewModel(webService: webService))
+    }
     
     var body: some View {
         VStack(spacing: 24) {
@@ -26,5 +30,7 @@ struct SeriesMainView: View {
 }
 
 #Preview {
-    SeriesMainView()
+    let webService = WebService()
+    
+    SeriesMainView(webService: webService)
 }

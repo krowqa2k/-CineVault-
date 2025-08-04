@@ -10,6 +10,12 @@ import SwiftUI
 struct MainView: View {
     @State var index: Int
     @StateObject private var viewModel: MainViewViewModel = MainViewViewModel()
+    private let webService: WebServiceProtocol
+    
+    init(index: Int = 0, webService: WebServiceProtocol) {
+        self.index = index
+        self.webService = webService
+    }
     
     var body: some View {
         ZStack {
@@ -40,7 +46,7 @@ struct MainView: View {
                 defaultView
                     .scrollIndicators(.hidden)
             case 1:
-                SearchView()
+                SearchView(webService: webService)
             case 3:
                 UserRatingsView()
             case 4:
@@ -69,10 +75,10 @@ struct MainView: View {
                 Group {
                     switch viewModel.viewOption {
                     case .movies:
-                        MoviesMainView()
+                        MoviesMainView(webService: webService)
                             .transition(.move(edge: .leading))
                     case .series:
-                        SeriesMainView()
+                        SeriesMainView(webService: webService)
                             .transition(.move(edge: .trailing))
                     }
                 }
@@ -84,8 +90,10 @@ struct MainView: View {
 }
 
 #Preview {
+    let webService = WebService()
+    
     NavigationStack {
-        MainView(index: 0)
+        MainView(index: 0, webService: webService)
     }
 }
 

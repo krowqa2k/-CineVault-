@@ -38,9 +38,10 @@ struct SeriesHighlightView: View {
 
 #Preview {
     let seriesArray: [SeriesModel] = [.mock, .mock, .mock]
+    let webService = WebService()
     
     NavigationStack {
         SeriesHighlightView(seriesArray: seriesArray)
-            .environmentObject(SeriesViewModel())
+            .environmentObject(SeriesViewModel(webService: webService))
     }
 }

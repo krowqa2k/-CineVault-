@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct SearchView: View {
-    @StateObject private var viewModel: SearchViewModel = SearchViewModel()
+    @StateObject private var viewModel: SearchViewModel
     @State private var query: String = ""
+    
+    init(webService: WebServiceProtocol) {
+        _viewModel = StateObject(wrappedValue: SearchViewModel(webService: webService))
+    }
         
     var body: some View {
         ZStack {
@@ -120,9 +124,11 @@ struct SearchView: View {
 
 #Preview {
     NavigationStack {
+        let webService = WebService()
+        
         ZStack {
             Color.blackDB.ignoresSafeArea()
-            SearchView()
+            SearchView(webService: webService)
         }
     }
 }
