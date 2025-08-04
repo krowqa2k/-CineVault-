@@ -11,7 +11,7 @@ import SwiftData
 struct SeriesDetailView: View {
     
     @Environment(\.modelContext) var modelContext
-    @EnvironmentObject var viewModel: DataBaseViewModel
+    @EnvironmentObject var viewModel: SeriesViewModel
     var imageName: String = Constants.mockImage
     var series: SeriesModel = .mock
     @State private var onClick: Bool = false
@@ -221,5 +221,5 @@ struct SeriesDetailView: View {
 
 #Preview {
     SeriesDetailView()
-        .environmentObject(DataBaseViewModel())
+        .environmentObject(SeriesViewModel())
 }

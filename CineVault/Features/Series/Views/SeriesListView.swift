@@ -1,15 +1,17 @@
 //
-//  PopularSeriesListView.swift
-//  MovieDBApp
+//  SeriesListView.swift
+//  CineVault
 //
-//  Created by Mateusz Krówczyński on 02/08/2024.
+//  Created by Mateusz Krówczyński on 04/08/2025.
 //
 
 import SwiftUI
 
-struct PopularSeriesListView: View {
-    @EnvironmentObject var viewModel: DataBaseViewModel
+struct SeriesListView: View {
+    @EnvironmentObject var viewModel: SeriesViewModel
     @Environment(\.dismiss) var dismiss
+    let title: String
+    let seriesArray: [SeriesModel]
     
     var body: some View {
         ZStack {
@@ -42,10 +44,13 @@ struct PopularSeriesListView: View {
             })
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 26)
-            Text("Popular")
+            
+            Text(title)
                 .foregroundStyle(.purpleDB)
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .center)
+                .fixedSize()
+            
             Image(systemName: "popcorn.fill")
                 .font(.system(size: 25))
                 .foregroundStyle(.white)
@@ -56,9 +61,12 @@ struct PopularSeriesListView: View {
     
     private var moviesList: some View {
         ScrollView {
-            ForEach(viewModel.popularSeries){ popularSeries in
-                NavigationLink(destination: SeriesDetailView(imageName: popularSeries.fullPosterPath, series: popularSeries)) {
-                    SeriesListCell(imageName: popularSeries.fullPosterPath, series: popularSeries)
+            ForEach(seriesArray){ airingTodaySeries in
+                NavigationLink(
+                    destination: SeriesDetailView(imageName: airingTodaySeries.fullPosterPath, series: airingTodaySeries)
+                        .environmentObject(viewModel)
+                ) {
+                    SeriesListCell(imageName: airingTodaySeries.fullPosterPath, series: airingTodaySeries)
                         .padding(.top, 12)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading)
@@ -69,6 +77,10 @@ struct PopularSeriesListView: View {
 }
 
 #Preview {
-    PopularSeriesListView()
-        .environmentObject(DataBaseViewModel())
+    let seriesArray: [SeriesModel] = [.mock, .mock, .mock, .mock, .mock]
+    
+    NavigationStack {
+        SeriesListView(title: "Airing Today", seriesArray: seriesArray)
+            .environmentObject(SeriesViewModel())
+    }
 }

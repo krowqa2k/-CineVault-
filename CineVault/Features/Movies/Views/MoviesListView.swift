@@ -44,10 +44,13 @@ struct MoviesListView: View {
             })
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 26)
+            
             Text(title)
                 .foregroundStyle(.purpleDB)
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .center)
+                .fixedSize()
+            
             Image(systemName: "popcorn.fill")
                 .font(.system(size: 25))
                 .foregroundStyle(.white)

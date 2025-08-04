@@ -11,8 +11,9 @@ struct MoviesMainView: View {
     @StateObject private var viewModel: MoviesViewModel = MoviesViewModel()
     
     var body: some View {
-        VStack {
+        VStack(spacing: 24) {
             MoviesHighlightView(movieArray: viewModel.popular)
+                .padding(.bottom, 0)
             
             MoviesScrollView(title: "Now Playing", movieArray: viewModel.trendings)
             

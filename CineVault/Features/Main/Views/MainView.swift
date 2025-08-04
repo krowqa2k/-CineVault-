@@ -59,29 +59,24 @@ struct MainView: View {
     }
     
     private var defaultView: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 0) {
             HeaderView()
             
             FilterView(viewModel: viewModel)
-                .padding(.bottom)
                 .padding(.horizontal)
             
             ScrollView(.vertical) {
-                ZStack {
-                    if viewModel.viewOption == .movies {
-                        LazyVStack(spacing: 16) {
-                            MoviesMainView()
-                        }
-                        .padding(.bottom, 20)
-                        .transition(.move(edge: .leading))
-                    } else {
-                        LazyVStack(spacing: 16) {
-                            
-                        }
-                        .padding(.bottom, 20)
-                        .transition(.move(edge: .trailing))
+                Group {
+                    switch viewModel.viewOption {
+                    case .movies:
+                        MoviesMainView()
+                            .transition(.move(edge: .leading))
+                    case .series:
+                        SeriesMainView()
+                            .transition(.move(edge: .trailing))
                     }
                 }
+                .padding(.bottom)
                 .animation(.spring(), value: viewModel.viewOption)
             }
         }
