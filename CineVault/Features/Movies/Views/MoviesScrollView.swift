@@ -27,7 +27,7 @@ struct MoviesScrollView: View {
                         Spacer()
                         
                         NavigationLink(
-                            destination: MoviesListView(movieArray: movieArray)
+                            destination: MoviesListView(title: title, movieArray: movieArray)
                                 .environmentObject(viewModel)
                         ) {
                             Text("View all")

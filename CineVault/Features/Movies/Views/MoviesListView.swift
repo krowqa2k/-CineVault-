@@ -10,6 +10,7 @@ import SwiftUI
 struct MoviesListView: View {
     @EnvironmentObject var viewModel: MoviesViewModel
     @Environment(\.dismiss) var dismiss
+    let title: String
     let movieArray: [MovieModel]
     
     var body: some View {
@@ -43,7 +44,7 @@ struct MoviesListView: View {
             })
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 26)
-            Text("Popular Movies")
+            Text(title)
                 .foregroundStyle(.purpleDB)
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -76,7 +77,7 @@ struct MoviesListView: View {
     let movieArray: [MovieModel] = [MovieModel.mock, MovieModel.mock, MovieModel.mock]
     
     NavigationStack {
-        MoviesListView(movieArray: movieArray)
+        MoviesListView(title: "Popular Movies", movieArray: movieArray)
             .environmentObject(MoviesViewModel())
     }
 }
