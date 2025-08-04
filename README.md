@@ -1,7 +1,5 @@
 *THIS IS THE SECOND VERSION OF THE REPOSITORY BECAUSE IN THE LAST ONE, I MISTAKENLY ADDED THE WRONG FILE TO .GITIGNORE, AND IT BROKE THE WHOLE PROJECT, WHICH I ONLY NOTICED AFTER NEARLY 6 MONTHS.* 
 
-The code needs major refactoring, and I know that, but I made the app as my first bigger project back in July 2024. I am focused on another project for now but will come back to it.
-
 🍿 CineVault
 
 It's my first Big SwiftUI independent project which taught me the basics of SwiftUI. I focused on proccesing the API calls and format the data properly into movies/series/actors. NEW I've also added recently SwiftData for saving User's ratings of movies/series. I wanted to check out how does it work and how much it differs from CoreData.
