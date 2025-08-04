@@ -40,7 +40,7 @@ struct MainView: View {
                 defaultView
                     .scrollIndicators(.hidden)
             case 1:
-                SearchView_()
+                SearchView()
             case 3:
                 UserRatingsView()
             case 4:

@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct SearchView_: View {
-    @EnvironmentObject var viewModel: DataBaseViewModel
+struct SearchView: View {
+    @StateObject private var viewModel: SearchViewModel = SearchViewModel()
     @State private var query: String = ""
         
     var body: some View {
@@ -25,8 +25,6 @@ struct SearchView_: View {
             }
             .toolbar(.hidden, for: .navigationBar)
         }
-        
-        
     }
     
     private var header: some View {
@@ -80,7 +78,10 @@ struct SearchView_: View {
     private var moviesResult: some View {
         ScrollView(.vertical) {
             ForEach(viewModel.searchDB) { row in
-                NavigationLink(destination: SearchMovieDetailView(imageName: row.fullPosterPath, movie: row)) {
+                NavigationLink(
+                    destination: SearchMovieDetailView(imageName: row.fullPosterPath, movie: row)
+                        .environmentObject(viewModel)
+                ) {
                     HStack(spacing: 12) {
                         ImageLoader(imageURL: row.fullPosterPath)
                             .frame(width: 110, height: 160)
@@ -118,9 +119,10 @@ struct SearchView_: View {
 }
 
 #Preview {
-    ZStack {
-        Color.blackDB.ignoresSafeArea()
-        SearchView_()
-            .environmentObject(DataBaseViewModel())
+    NavigationStack {
+        ZStack {
+            Color.blackDB.ignoresSafeArea()
+            SearchView()
+        }
     }
 }
