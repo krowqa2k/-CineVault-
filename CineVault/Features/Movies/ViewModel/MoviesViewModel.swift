@@ -18,9 +18,8 @@ final class MoviesViewModel: ObservableObject {
     private let favoritesManager = FavoritesService.shared
     private let webService: WebServiceProtocol
     
-    @Published var currentIndex = 0
-    @Published var timer: Timer?
-    
+    @Published var isLoading: Bool = false
+
     // Favorites
     @Published var favoriteMoviesAndSeries: Set<String> {
         didSet {
@@ -31,12 +30,10 @@ final class MoviesViewModel: ObservableObject {
     init(webService: WebServiceProtocol) {
         self.favoriteMoviesAndSeries = favoritesManager.favoriteMoviesAndSeries
         self.webService = webService
-        Task {
-            await fetchAllData()
-        }
     }
     
-    private func fetchAllData() async {
+    func fetchAllData() async {
+        isLoading = true
         await withTaskGroup { group in
             group.addTask {
                 await self.getTrendingsData()
@@ -54,6 +51,7 @@ final class MoviesViewModel: ObservableObject {
                 await self.getTopRatedData()
             }
         }
+        isLoading = false
     }
 
     func addFavorite(posterPath: String) {

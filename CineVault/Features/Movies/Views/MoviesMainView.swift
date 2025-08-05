@@ -15,18 +15,28 @@ struct MoviesMainView: View {
     }
     
     var body: some View {
-        VStack(spacing: 24) {
-            MoviesHighlightView(movieArray: viewModel.popular)
-                .padding(.bottom, 0)
-            
-            MoviesScrollView(title: "Now Playing", movieArray: viewModel.trendings)
-            
-            MoviesScrollView(title: "Top Rated", movieArray: viewModel.topRated)
-            
-            MoviesScrollView(title: "Upcoming", movieArray: viewModel.upcoming)
+        ZStack {
+            if !viewModel.isLoading {
+                VStack(spacing: 24) {
+                    MoviesHighlightView(movieArray: viewModel.popular)
+                        .padding(.bottom, 0)
+                    
+                    MoviesScrollView(title: "Now Playing", movieArray: viewModel.trendings)
+                    
+                    MoviesScrollView(title: "Top Rated", movieArray: viewModel.topRated)
+                    
+                    MoviesScrollView(title: "Upcoming", movieArray: viewModel.upcoming)
+                }
+                .environmentObject(viewModel)
+                .background(Color.blackDB)
+            } else {
+                ProgressView()
+                    .font(.largeTitle)
+            }
         }
-        .background(Color.blackDB)
-        .environmentObject(viewModel)
+        .task {
+            await viewModel.fetchAllData()
+        }
     }
 }
 

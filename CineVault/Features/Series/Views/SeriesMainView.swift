@@ -15,17 +15,28 @@ struct SeriesMainView: View {
     }
     
     var body: some View {
-        VStack(spacing: 24) {
-            SeriesHighlightView(seriesArray: viewModel.popularSeries)
-                .padding(.bottom, 0)
-            
-            SeriesScrollView(title: "New Episode Today!", seriesArray: viewModel.airingToday)
-            
-            SeriesScrollView(title: "On Air Currently", seriesArray: viewModel.onTheAirSeries)
-            
-            SeriesScrollView(title: "Top Rated Series", seriesArray: viewModel.topRatedSeries)
+        ZStack {
+            if !viewModel.isLoading {
+                VStack(spacing: 24) {
+                    SeriesHighlightView(seriesArray: viewModel.popularSeries)
+                        .padding(.bottom, 0)
+                    
+                    SeriesScrollView(title: "New Episode Today!", seriesArray: viewModel.airingToday)
+                    
+                    SeriesScrollView(title: "On Air Currently", seriesArray: viewModel.onTheAirSeries)
+                    
+                    SeriesScrollView(title: "Top Rated Series", seriesArray: viewModel.topRatedSeries)
+                }
+                .environmentObject(viewModel)
+                .background(Color.blackDB)
+            } else {
+                ProgressView()
+                    .font(.largeTitle)
+            }
         }
-        .environmentObject(viewModel)
+        .task {
+            await viewModel.fetchAllData()
+        }
     }
 }
 
