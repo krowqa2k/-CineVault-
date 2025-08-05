@@ -71,19 +71,13 @@ struct MainView: View {
             FilterView(viewModel: viewModel)
                 .padding(.horizontal)
             
-            ScrollView(.vertical) {
-                Group {
-                    switch viewModel.viewOption {
-                    case .movies:
-                        MoviesMainView(webService: webService)
-                            .transition(.move(edge: .leading))
-                    case .series:
-                        SeriesMainView(webService: webService)
-                            .transition(.move(edge: .trailing))
-                    }
+            Group {
+                switch viewModel.viewOption {
+                case .movies:
+                    MoviesMainView(webService: webService)
+                case .series:
+                    SeriesMainView(webService: webService)
                 }
-                .padding(.bottom)
-                .animation(.spring(), value: viewModel.viewOption)
             }
         }
     }
