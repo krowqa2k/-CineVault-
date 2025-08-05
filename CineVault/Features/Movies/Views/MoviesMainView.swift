@@ -15,9 +15,9 @@ struct MoviesMainView: View {
     }
     
     var body: some View {
-        ZStack {
+        NavigationStack {
             if !viewModel.isLoading {
-                VStack(spacing: 24) {
+                ScrollView {
                     MoviesHighlightView(movieArray: viewModel.popular)
                         .padding(.bottom, 0)
                     
@@ -29,13 +29,18 @@ struct MoviesMainView: View {
                 }
                 .environmentObject(viewModel)
                 .background(Color.blackDB)
+                .refreshable {
+                    await viewModel.refreshFetchData()
+                }
             } else {
                 ProgressView()
                     .font(.largeTitle)
             }
         }
         .task {
-            await viewModel.fetchAllData()
+            if !viewModel.initialDataFetched {
+                await viewModel.fetchInitialData()
+            }
         }
     }
 }

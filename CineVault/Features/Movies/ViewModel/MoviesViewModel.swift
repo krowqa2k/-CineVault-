@@ -19,6 +19,7 @@ final class MoviesViewModel: ObservableObject {
     private let webService: WebServiceProtocol
     
     @Published var isLoading: Bool = false
+    @Published var initialDataFetched: Bool = false
 
     // Favorites
     @Published var favoriteMoviesAndSeries: Set<String> {
@@ -32,7 +33,7 @@ final class MoviesViewModel: ObservableObject {
         self.webService = webService
     }
     
-    func fetchAllData() async {
+    func fetchInitialData() async {
         isLoading = true
         await withTaskGroup { group in
             group.addTask {
@@ -52,6 +53,12 @@ final class MoviesViewModel: ObservableObject {
             }
         }
         isLoading = false
+        initialDataFetched = true
+    }
+    
+    func refreshFetchData() async {
+        guard !isLoading, !initialDataFetched else { return }
+        await fetchInitialData()
     }
 
     func addFavorite(posterPath: String) {

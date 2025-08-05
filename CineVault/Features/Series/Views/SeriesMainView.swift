@@ -15,9 +15,9 @@ struct SeriesMainView: View {
     }
     
     var body: some View {
-        ZStack {
+        NavigationStack {
             if !viewModel.isLoading {
-                VStack(spacing: 24) {
+                ScrollView {
                     SeriesHighlightView(seriesArray: viewModel.popularSeries)
                         .padding(.bottom, 0)
                     
@@ -29,13 +29,18 @@ struct SeriesMainView: View {
                 }
                 .environmentObject(viewModel)
                 .background(Color.blackDB)
+                .refreshable {
+                    await viewModel.refreshFetchData()
+                }
             } else {
                 ProgressView()
                     .font(.largeTitle)
             }
         }
         .task {
-            await viewModel.fetchAllData()
+            if !viewModel.initialDataFetched {
+                await viewModel.fetchInitialData()
+            }
         }
     }
 }
